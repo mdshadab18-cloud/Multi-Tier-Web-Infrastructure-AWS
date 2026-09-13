@@ -128,19 +128,19 @@ Application Integration
   Issue: Web server not responding
   Status: Open
 - This verified the complete application path:
-Browser
-   ↓
-EC2
-   ↓
-Apache
-   ↓
-PHP
-   ↓
-RDS MySQL
-   ↓
-cloudapp database
-   ↓
-support_tickets table
+  Browser
+    ↓
+  EC2
+    ↓
+  Apache
+    ↓
+  PHP
+    ↓
+  RDS MySQL
+    ↓
+  cloudapp database
+    ↓
+  support_tickets table
 
 # Connectivity Troubleshooting
 
