@@ -61,9 +61,9 @@ Public IPv4 address: Enabled
 Web server: Apache (httpd)
 Application layer: PHP
 Apache was installed and configured using:
-• sudo dnf install httpd -y
-• sudo systemctl start httpd
-• sudo systemctl enable httpd
+- sudo dnf install httpd -y
+- sudo systemctl start httpd
+- sudo systemctl enable httpd
 Apache was verified to be running successfully.
 
 # RDS MySQL Database
@@ -76,14 +76,14 @@ Public access: No
 Port: 3306
 DB subnet group: Private subnets
 Security group: cloud-support-db-sg
-• The RDS database was intentionally kept private and was not directly exposed to the internet
+- The RDS database was intentionally kept private and was not directly exposed to the internet
 
 # Security Group Configuration
 EC2 Security Group
 cloud-support-web-sg
 Inbound access:
-• SSH 22 — allowed from My IP
-• HTTP 80 — allowed from Anywhere IPv4
+- SSH 22 — allowed from My IP
+- HTTP 80 — allowed from Anywhere IPv4
 
 # RDS Security Group
 
@@ -91,28 +91,28 @@ cloud-support-db-sg
 Inbound access:
 MySQL/Aurora 3306
 Source: cloud-support-web-sg
-• This allows the EC2 web server to communicate with the database while preventing direct internet access to MySQL.
+- This allows the EC2 web server to communicate with the database while preventing direct internet access to MySQL.
 
 # Database Connectivity Test
 
 The MariaDB/MySQL client was installed on the EC2 instance and used to test the RDS connection.
 Example:
 mysql -h <RDS-ENDPOINT> -P 3306 -u admin -p
-• The connection was successful and the       cloudapp database was accessed.
+- The connection was successful and the       cloudapp database was accessed.
 
 # A support_tickets table was created:
 
-CREATE TABLE support_tickets (
+- CREATE TABLE support_tickets (
     id INT AUTO_INCREMENT PRIMARY KEY,
     issue VARCHAR(100),
     status VARCHAR(20)
 );
 
-A test support ticket was inserted:
+- A test support ticket was inserted:
 INSERT INTO support_tickets (issue, status)
 VALUES ('Web server not responding', 'Open');
 
-The record was verified using:
+- The record was verified using:
 SELECT * FROM support_tickets;
 
 Application Integration
@@ -127,7 +127,7 @@ Cloud Support Ticket
 Ticket ID: 1
 Issue: Web server not responding
 Status: Open
-• This verified the complete application path:
+- This verified the complete application path:
 Browser
    ↓
 EC2
@@ -154,7 +154,7 @@ TCP connectivity to the RDS MySQL port was tested from EC2 using Netcat:nc -vz -
 
 The result was:
 Ncat: TIMEOUT
-• This indicated that TCP port 3306 was not reachable from the EC2 instance.
+- This indicated that TCP port 3306 was not reachable from the EC2 instance.
 
 # Investigation
 The RDS security group was checked and the inbound rule allowing the web-server security group to access MySQL was missing.
@@ -174,7 +174,7 @@ Source: cloud-support-web-sg
 The TCP connectivity test was run again: nc -vz -w 5 <RDS-ENDPOINT> 3306
 The connection was successful:
 Ncat: Connected to <private-RDS-IP>:3306
-• The PHP application was then tested again and successfully retrieved the database record.
+- The PHP application was then tested again and successfully retrieved the database record.
 
 # Troubleshooting Workflow
 
@@ -199,33 +199,33 @@ Verify PHP application
 Database record displayed
 
 # Key Skills Demonstrated
-• AWS VPC
-• Public and private subnets
-• Route tables
-• Internet Gateway
-• EC2 administration
-• Amazon RDS MySQL
-• Security groups
-• TCP/IP connectivity troubleshooting
-• Apache web server
-• PHP and MySQL connectivity
-• Linux command-line administration
-• Network troubleshooting
-• Root-cause identification
-• Incident troubleshooting
-• Technical documentation
+- AWS VPC
+- Public and private subnets
+- Route tables
+- Internet Gateway
+- EC2 administration
+- Amazon RDS MySQL
+- Security groups
+- TCP/IP connectivity troubleshooting
+- Apache web server
+- PHP and MySQL connectivity
+- Linux command-line administration
+- Network troubleshooting
+- Root-cause identification
+- Incident troubleshooting
+- Technical documentation
 
 # What I Learned
 
 This project provided practical experience with:
-• Designing a basic multi-tier AWS architecture
-• Separating web and database tiers
-• Keeping a database private
-• Controlling traffic using security groups
-• Testing network connectivity between AWS resources.
-• Diagnosing security-group-related connectivity failures
-• Verifying application-to-database communication
-• Following a structured troubleshooting process
+- Designing a basic multi-tier AWS architecture
+- Separating web and database tiers
+- Keeping a database private
+- Controlling traffic using security groups
+- Testing network connectivity between AWS resources.
+- Diagnosing security-group-related connectivity failures
+- Verifying application-to-database communication
+- Following a structured troubleshooting process
 
 
 
