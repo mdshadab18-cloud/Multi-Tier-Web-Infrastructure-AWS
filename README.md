@@ -68,15 +68,15 @@ Apache was verified to be running successfully.
 
 # RDS MySQL Database
 
-RDS configuration:
-DB identifier: cloud-support-db
-Engine: MySQL
-Database: cloudapp
-Public access: No
-Port: 3306
-DB subnet group: Private subnets
-Security group: cloud-support-db-sg
-- The RDS database was intentionally kept private and was not directly exposed to the internet
+- RDS configuration:
+  DB identifier: cloud-support-db
+  Engine: MySQL
+  Database: cloudapp
+  Public access: No
+  Port: 3306
+• DB subnet group: Private subnets
+  Security group: cloud-support-db-sg
+- The RDS database was intentionally kept         private and was not directly exposed to the     internet
 
 # Security Group Configuration
 EC2 Security Group
@@ -88,15 +88,15 @@ Inbound access:
 # RDS Security Group
 
 cloud-support-db-sg
-Inbound access:
-MySQL/Aurora 3306
-Source: cloud-support-web-sg
+• Inbound access:
+  MySQL/Aurora 3306
+  Source: cloud-support-web-sg
 - This allows the EC2 web server to communicate with the database while preventing direct internet access to MySQL.
 
 # Database Connectivity Test
 
-The MariaDB/MySQL client was installed on the EC2 instance and used to test the RDS connection.
-Example:
+• The MariaDB/MySQL client was installed on the   EC2 instance and used to test the RDS           connection.
+  Example:
 mysql -h <RDS-ENDPOINT> -P 3306 -u admin -p
 - The connection was successful and the       cloudapp database was accessed.
 
@@ -117,16 +117,16 @@ SELECT * FROM support_tickets;
 
 Application Integration
 
-PHP and the MySQL connector were installed on the EC2 web server.
+• PHP and the MySQL connector were installed on   the EC2 web server.
 
-A simple PHP test application was created to connect to RDS MySQL and retrieve records from the support_tickets table.
+• A simple PHP test application was created to    connect to RDS MySQL and retrieve records       from the support_tickets table.
 
 # The application displayed:
 
-Cloud Support Ticket
-Ticket ID: 1
-Issue: Web server not responding
-Status: Open
+• Cloud Support Ticket
+  Ticket ID: 1
+  Issue: Web server not responding
+  Status: Open
 - This verified the complete application path:
 Browser
    ↓
@@ -144,58 +144,59 @@ support_tickets table
 
 # Connectivity Troubleshooting
 
-A controlled connectivity failure was created to practice troubleshooting an EC2-to-RDS connection problem.
+- A controlled connectivity failure was created   to practice troubleshooting an EC2-to-RDS       connection problem.
 
 Symptom
-The PHP application stopped responding because the EC2 instance could no longer connect to the RDS database.
+- The PHP application stopped responding          because the EC2 instance could no longer        connect to the RDS database.
 
 Initial Network Test
-TCP connectivity to the RDS MySQL port was tested from EC2 using Netcat:nc -vz -w 5 <RDS-ENDPOINT> 3306
+TCP connectivity to the RDS MySQL port was tested from EC2 using 
+• Netcat:nc -vz -w 5 <RDS-ENDPOINT> 3306
 
 The result was:
 Ncat: TIMEOUT
 - This indicated that TCP port 3306 was not reachable from the EC2 instance.
 
 # Investigation
-The RDS security group was checked and the inbound rule allowing the web-server security group to access MySQL was missing.
+- The RDS security group was checked and the inbound rule allowing the web-server security group to access MySQL was missing.
 
 # Root Cause
 The RDS security group did not have an inbound rule allowing:
-cloud-support-web-sg → TCP 3306
+- cloud-support-web-sg → TCP 3306
 
 # Resolution
 The correct inbound rule was restored:
-Type: MySQL/Aurora
-Protocol: TCP
-Port: 3306
-Source: cloud-support-web-sg
+- Type: MySQL/Aurora
+  Protocol: TCP
+  Port: 3306
+  Source: cloud-support-web-sg
 
 # Verification
 The TCP connectivity test was run again: nc -vz -w 5 <RDS-ENDPOINT> 3306
-The connection was successful:
+- The connection was successful:
 Ncat: Connected to <private-RDS-IP>:3306
 - The PHP application was then tested again and successfully retrieved the database record.
 
 # Troubleshooting Workflow
 
 Application timeout
-       ↓
+        |
 Test TCP connectivity
-       ↓
+        |
 Port 3306 timed out
-       ↓
+        |
 Check RDS security group
-       ↓
+        |
 Inbound database rule missing
-       ↓
+        |
 Allow cloud-support-web-sg → TCP 3306
-       ↓
+        |
 Test TCP connectivity again
-       ↓
+        |
 Connection successful
-       ↓
+        |
 Verify PHP application
-       ↓
+        |
 Database record displayed
 
 # Key Skills Demonstrated
