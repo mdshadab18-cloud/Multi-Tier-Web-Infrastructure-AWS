@@ -174,7 +174,8 @@ The correct inbound rule was restored:
   Source: cloud-support-web-sg
 
 # Verification
-The TCP connectivity test was run again: nc -vz -w 5 <RDS-ENDPOINT> 3306
+The TCP connectivity test was run 
+again: nc -vz -w 5 <RDS-ENDPOINT> 3306
 - The connection was successful:
 Ncat: Connected to <private-RDS-IP>:3306
 - The PHP application was then tested again and successfully retrieved the database record.
@@ -182,24 +183,33 @@ Ncat: Connected to <private-RDS-IP>:3306
 # Troubleshooting workflow 
 
 - Application timeout
-        |
+         |
+         v
 - Test TCP connectivity
-        |
+         |
+         v
 - Port 3306 timed out
-        |
+         |
+         v
 - Check RDS security group
-        |
+         |
+         v
 - Inbound rule missing
-        |
+         |
+         v
 - Allow EC2 security group
   on TCP 3306
-        |
+         |
+         v
 - Test connectivity again
-        |
+         |
+         v
 - Connection successful
-        |
+         |
+         v
 - Verify application
-        |
+         |
+         v
 - Database record displayed
 
 # Key Skills Demonstrated
