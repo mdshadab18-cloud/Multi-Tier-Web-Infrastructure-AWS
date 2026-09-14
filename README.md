@@ -129,18 +129,20 @@ Application Integration
   Status: Open
 - This verified the complete application path:
   Browser
-    ↓
-  EC2
-    ↓
-  Apache
-    ↓
-  PHP
-    ↓
-  RDS MySQL
-    ↓
-  cloudapp database
-    ↓
-  support_tickets table
+
+  # application flow
+
+  Browser
+   |
+EC2
+   |
+Apache
+   |
+PHP
+   |
+RDS MySQL
+   |
+support_tickets table
 
 # Connectivity Troubleshooting
 
@@ -177,26 +179,36 @@ The TCP connectivity test was run again: nc -vz -w 5 <RDS-ENDPOINT> 3306
 Ncat: Connected to <private-RDS-IP>:3306
 - The PHP application was then tested again and successfully retrieved the database record.
 
-# Troubleshooting Workflow
+# Troubleshooting workflow 
 
 Application timeout
         |
+        v
 Test TCP connectivity
         |
+        v
 Port 3306 timed out
         |
+        v
 Check RDS security group
         |
-Inbound database rule missing
+        v
+Inbound rule missing
         |
-Allow cloud-support-web-sg → TCP 3306
+        v
+Allow EC2 security group
+on TCP 3306
         |
-Test TCP connectivity again
+        v
+Test connectivity again
         |
+        v
 Connection successful
         |
-Verify PHP application
+        v
+Verify application
         |
+        v
 Database record displayed
 
 # Key Skills Demonstrated
