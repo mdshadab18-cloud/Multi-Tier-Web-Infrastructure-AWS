@@ -183,33 +183,24 @@ Ncat: Connected to <private-RDS-IP>:3306
 # Troubleshooting workflow 
 
 - Application timeout
-         |
-         v
+             
 - Test TCP connectivity
-         |
-         v
+               
 - Port 3306 timed out
-         |
-         v
+              
 - Check RDS security group
-         |
-         v
+                
 - Inbound rule missing
-         |
-         v
+                
 - Allow EC2 security group
   on TCP 3306
-         |
-         v
+               
 - Test connectivity again
-         |
-         v
+               
 - Connection successful
-         |
-         v
+               
 - Verify application
-         |
-         v
+               
 - Database record displayed
 
 # Key Skills Demonstrated
