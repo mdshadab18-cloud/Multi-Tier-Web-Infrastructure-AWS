@@ -153,7 +153,7 @@ Symptom
 
 Initial Network Test
 TCP connectivity to the RDS MySQL port was tested from EC2 using 
-• Netcat:nc -vz -w 5 <RDS-ENDPOINT> 3306
+• Netcat:nc -vz -w 5 <cloud-support-db.cdi8q2wohts.us-east-1.rds.amazonaws.com> 3306
 
 The result was:
 Ncat: TIMEOUT
@@ -175,7 +175,7 @@ The correct inbound rule was restored:
 
 # Verification
 The TCP connectivity test was run 
-again: nc -vz -w 5 <RDS-ENDPOINT> 3306
+again: nc -vz -w 5 <cloud-support-db.cdi8q2wohts.us-east-1.rds.amazonaws.com > 3306
 - The connection was successful:
 Ncat: Connected to <private-RDS-IP>:3306
 - The PHP application was then tested again and successfully retrieved the database record.
